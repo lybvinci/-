@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -48,6 +50,14 @@ public class SignInActivity extends BaseActivity {
     private String username;
     //退出使用
     private boolean isExit = false;
+    /**
+     * The handler. to process exit()
+     */
+    private Handler exitHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            isExit = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +82,6 @@ public class SignInActivity extends BaseActivity {
         list_view = (ListView) findViewById(R.id.list_view);
         btn_sign_in = (Button) findViewById(R.id.btn_sign_in);
     }
-
 
     @Override
     public void initEvents() {
@@ -104,8 +113,7 @@ public class SignInActivity extends BaseActivity {
     public void signIn(View view) {
         WifiManager mWifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         if (mWifi.isWifiEnabled()) {
-            if (!isSignIn) {
-                //签到
+            try {
                 WifiInfo wifiInfo = mWifi.getConnectionInfo();
                 //String netName = wifiInfo.getSSID(); //获取被连接网络的名称
 //            String localMac = wifiInfo.getMacAddress();// 获得本机的MAC地址
@@ -114,27 +122,31 @@ public class SignInActivity extends BaseActivity {
 //            Log.d("SignInActivity","---localMac:"+localMac); //---localMac:BC:76:70:9F:56:BD
                 String netMac = wifiInfo.getBSSID(); //获取被连接网络的mac地址
                 if (netMac.equals(MAC)) {
+                    if (!isSignIn) {
+                        //签到
                     initUploadingTime();
                     uploadSignIn();
                 } else {
-                    ToastUtils.showShort(this, "你的WIFI不对哦~");
+                        //离签
+                        leaveAndSave();
                 }
             } else {
-                //离签
-                //initUploadingTime();
-                leaveAndSave();
+                    ToastUtils.showShort(this, "你的WIFI不对哦~");
+            }
+            } catch (Exception e) {
+                ToastUtils.showShort(this, "你的WIFI出现了谁也没见过的问题，你真是奇葩");
             }
         } else {
             ToastUtils.showShort(this, "请先连接WIFI");
         }
     }
 
-    public void gotoSum(View view) {
+    private void gotoSum() {
         Intent intent = new Intent(this, SummaryActivity.class);
         startActivity(intent);
     }
 
-    public void loginOut(View view) {
+    private void loginOut() {
         AVUser currentUser = AVUser.getCurrentUser();
         currentUser.logOut();
         Intent intent = new Intent(this, LoginActivity.class);
@@ -202,12 +214,11 @@ public class SignInActivity extends BaseActivity {
         long currentTime = DateUtil.getCurrentTimeInLong();
         String date = DateUtil.getFormatedDateTime(currentTime);
         String week = DateUtil.getWeekOfYear(date) + "";
-        Log.e(TAG,"week:"+week);
+        Log.e(TAG, "week:" + week);
         timeSave.put("currentTime", currentTime + "");
         timeSave.put("date", date);
         timeSave.put("week", week);
     }
-
 
     private void leaveAndSave() {
         AVQuery<AVObject> query = new AVQuery<>("SignIn");
@@ -292,7 +303,6 @@ public class SignInActivity extends BaseActivity {
         });
     }
 
-
     //更新数据
     private void refreshData() {
         AVQuery<AVObject> query = new AVQuery<>("SignIn");
@@ -334,12 +344,12 @@ public class SignInActivity extends BaseActivity {
                     //保存到Map中
                     if (!signIn.get("date").equals(timeSave.get("date"))) {
                         timeSave.put("todayTime", "0");
-                    }else {
+                    } else {
                         timeSave.put("todayTime", todayTime + "");
                     }
                     if (!signIn.get("week").equals(timeSave.get("week"))) {
                         timeSave.put("weekTime", todayTime + "");
-                    }else {
+                    } else {
                         timeSave.put("weekTime", nowWeekTime + "");
                     }
                     timeSave.put("allTime", nowAllTime + "");
@@ -356,49 +366,6 @@ public class SignInActivity extends BaseActivity {
                 }
             }
         });
-    }
-
-    //设备列表listview 适配器
-    class MyAdapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return 1;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(final int i, View view, ViewGroup viewGroup) {
-            View mView;
-            if (view == null) {
-                LayoutInflater inflater = SignInActivity.this.getLayoutInflater();
-                mView = inflater.inflate(R.layout.listview_bind_list, null);
-            } else {
-                mView = view;
-            }
-
-            TextView tv_day = (TextView) mView.findViewById(R.id.tv_day);
-            TextView tv_all_time = (TextView) mView.findViewById(R.id.tv_all_time);
-            TextView tv_week_time = (TextView) mView.findViewById(R.id.tv_week_time);
-            TextView tv_this_time = (TextView) mView.findViewById(R.id.tv_this_time);
-
-            if (timeSave != null && timeSave.size() > 3) {
-                tv_day.setText("累计天数:" + timeSave.get("day") + "天");
-                tv_all_time.setText("累计时长：" + timeSave.get("allTime") + "分钟");
-                tv_week_time.setText("一周累计时长：" + timeSave.get("weekTime") + "分钟");
-                tv_this_time.setText("今日累计时长：" + timeSave.get("todayTime") + "分钟");
-            }
-
-            return mView;
-        }
     }
 
     //计算已经多少天了
@@ -441,13 +408,132 @@ public class SignInActivity extends BaseActivity {
         }
     }
 
-    /**
-     * The handler. to process exit()
-     */
-    private Handler exitHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            isExit = false;
-        }
-    };
+    //菜单
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /*
+         *
+         * add()方法的四个参数，依次是：
+         *
+         * 1、组别，如果不分组的话就写Menu.NONE,
+         *
+         * 2、Id，这个很重要，Android根据这个Id来确定不同的菜单
+         *
+         * 3、顺序，那个菜单现在在前面由这个参数的大小决定
+         *
+         * 4、文本，菜单的显示文本
+         */
+        // setIcon()方法为菜单设置图标，这里使用的是系统自带的图标，同学们留意一下,以
 
+        // android.R开头的资源是系统提供的，我们自己提供的资源是以R开头的
+        menu.add(Menu.NONE, Menu.FIRST + 1, 1, "汇总").setIcon(
+                android.R.drawable.ic_menu_add);
+        menu.add(Menu.NONE, Menu.FIRST + 2, 2, "注销").setIcon(
+                android.R.drawable.ic_menu_delete);
+        menu.add(Menu.NONE, Menu.FIRST + 3, 3, "帮助").setIcon(
+                android.R.drawable.ic_menu_help);
+//        menu.add(Menu.NONE, Menu.FIRST + 5, 4, "详细").setIcon(
+//
+//                android.R.drawable.ic_menu_info_details);
+//        menu.add(Menu.NONE, Menu.FIRST + 1, 5, "删除").setIcon(
+//
+//                android.R.drawable.ic_menu_delete);
+//        menu.add(Menu.NONE, Menu.FIRST + 3, 6, "帮助").setIcon(
+//
+//                android.R.drawable.ic_menu_help);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case Menu.FIRST + 1:
+                //汇总
+                gotoSum();
+                break;
+            case Menu.FIRST + 2:
+                //注销
+                loginOut();
+                break;
+            case Menu.FIRST + 3:
+                //帮助
+                ToastUtils.showShort(this, "以后再帮助！先自学");
+                break;
+//            case Menu.FIRST + 4:
+//                Toast.makeText(this, "添加菜单被点击了", Toast.LENGTH_LONG).show();
+//                break;
+//            case Menu.FIRST + 5:
+//                Toast.makeText(this, "详细菜单被点击了", Toast.LENGTH_LONG).show();
+//                break;
+//            case Menu.FIRST + 6:
+//                Toast.makeText(this, "发送菜单被点击了", Toast.LENGTH_LONG).show();
+//                break;
+        }
+        return false;
+
+    }
+
+    @Override
+    public void onOptionsMenuClosed(Menu menu) {
+        // Toast.makeText(this, "选项菜单关闭了", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+//        Toast.makeText(this,
+//                "选项菜单显示之前onPrepareOptionsMenu方法会被调用，你可以用此方法来根据打当时的情况调整菜单",
+//                Toast.LENGTH_LONG).show();
+        // 如果返回false，此方法就把用户点击menu的动作给消费了，onCreateOptionsMenu方法将不会被调用
+        return true;
+
+    }
+
+    //设备列表listview 适配器
+    class MyAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            return 1;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int i, View view, ViewGroup viewGroup) {
+            View mView;
+            if (view == null) {
+                LayoutInflater inflater = SignInActivity.this.getLayoutInflater();
+                mView = inflater.inflate(R.layout.listview_bind_list, null);
+            } else {
+                mView = view;
+            }
+
+            TextView tv_day = (TextView) mView.findViewById(R.id.tv_day);
+            TextView tv_all_time = (TextView) mView.findViewById(R.id.tv_all_time);
+            TextView tv_week_time = (TextView) mView.findViewById(R.id.tv_week_time);
+            TextView tv_this_time = (TextView) mView.findViewById(R.id.tv_this_time);
+
+            if (timeSave != null && timeSave.size() > 3) {
+                tv_day.setText("累计天数：" + timeSave.get("day") + "天");
+                tv_all_time.setText("累计时长：" +
+                        DateUtil.minCastHour(timeSave.get("allTime")) + "小时" +
+                        DateUtil.minCastMin(timeSave.get("allTime")) + "分钟");
+                tv_week_time.setText("一周累计时长：" +
+                        DateUtil.minCastHour(timeSave.get("weekTime")) + "小时" +
+                        DateUtil.minCastMin(timeSave.get("weekTime")) + "分钟");
+                tv_this_time.setText("今日累计时长：" +
+                        DateUtil.minCastHour(timeSave.get("todayTime")) + "小时" +
+                        DateUtil.minCastMin(timeSave.get("todayTime")) + "分钟");
+            }
+
+            return mView;
+        }
+    }
 }

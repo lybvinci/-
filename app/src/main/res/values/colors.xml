@@ -154,4 +154,5 @@
     <color name="black">#000000</color><!--黑色 -->
     <color name="customblack">#4a90e2</color><!--经典蓝 -->
     <color name="transation">#00000000</color>
+    <color name="transation2">#A07A6C</color>
 </resources>

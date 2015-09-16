@@ -21,10 +21,8 @@ import com.xunce.signin.Utils.ToastUtils;
  */
 public class BaseActivity extends Activity {
 
-    private boolean isExit = false;
     public AlertDialog.Builder builder;
-
-
+    private boolean isExit = false;
     /**
      * The handler.
      */
@@ -41,7 +39,7 @@ public class BaseActivity extends Activity {
         super.onCreate(savedInstanceState);
         // 把activity推入历史栈，退出app后清除历史栈，避免造成内存溢出
         SystemBarTintManager tintManager=new SystemBarTintManager(this);
-        tintManager.setStatusBarTintResource(R.color.blue);
+        tintManager.setStatusBarTintResource(R.color.transation2);
         tintManager.setStatusBarTintEnabled(true);
         Historys.put(this);
         initViews();

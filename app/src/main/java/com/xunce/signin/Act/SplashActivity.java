@@ -1,10 +1,13 @@
 package com.xunce.signin.Act;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVUser;
@@ -13,21 +16,25 @@ import com.xunce.signin.R;
 import com.xunce.signin.Utils.NetworkUtils;
 
 
-
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends Activity {
 
     private TextView welcome;
     private AVUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_splash);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //设置全屏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("广告");
+        setContentView(R.layout.activity_splash);
+        initViews();
+//        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+//        mToolbar.setTitle("广告");
     }
 
-    @Override
+
     public void initViews() {
         welcome = (TextView) findViewById(R.id.welcome);
         currentUser = AVUser.getCurrentUser();

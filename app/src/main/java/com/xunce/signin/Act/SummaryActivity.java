@@ -65,43 +65,6 @@ public class SummaryActivity extends BaseActivity {
         list_view.setAdapter(mAdapter);
     }
 
-    class MyAdapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return userName.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(final int i, View view, ViewGroup viewGroup) {
-            View mView;
-            if (view == null) {
-                LayoutInflater inflater = SummaryActivity.this.getLayoutInflater();
-                mView = inflater.inflate(R.layout.listview_summary, null);
-            } else {
-                mView = view;
-            }
-            TextView tv_username = (TextView) mView.findViewById(R.id.tv_name);
-            TextView tv_all_time = (TextView) mView.findViewById(R.id.tv_week_time);
-            if(userName.size()>0) {
-//                Log.e("i:"+i,userName.toString());
-//                Log.e("i:"+i,userName.get(i));
-                tv_username.setText("姓名：" + userName.get(i));
-                tv_all_time.setText("累计时长：" + allTime.get(i) + "分钟");
-            }
-            return mView;
-        }
-    }
-
     private void refreshData(){
         userName.clear();
         allTime.clear();
@@ -143,6 +106,45 @@ public class SummaryActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    class MyAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            return userName.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int i, View view, ViewGroup viewGroup) {
+            View mView;
+            if (view == null) {
+                LayoutInflater inflater = SummaryActivity.this.getLayoutInflater();
+                mView = inflater.inflate(R.layout.listview_summary, null);
+            } else {
+                mView = view;
+            }
+            TextView tv_username = (TextView) mView.findViewById(R.id.tv_name);
+            TextView tv_all_time = (TextView) mView.findViewById(R.id.tv_week_time);
+            if (userName.size() > 0) {
+//                Log.e("i:"+i,userName.toString());
+//                Log.e("i:"+i,userName.get(i));
+                tv_username.setText("姓名：" + userName.get(i));
+                tv_all_time.setText("累计时长：" +
+                        DateUtil.minCastHour(allTime.get(i)) + "小时" +
+                        DateUtil.minCastMin(allTime.get(i)) + "分钟");
+            }
+            return mView;
+        }
     }
 
 }

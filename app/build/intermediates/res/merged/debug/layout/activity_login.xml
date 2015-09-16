@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/login_act"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -47,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="28dp"
             android:layout_marginTop="2dp"
+            android:background="@drawable/button_gray"
             android:text="新用户"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -63,6 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="28dp"
+            android:background="@drawable/button_gray"
             android:text="忘记密码"
             android:textColor="@color/white"
             android:textSize="18sp" />

@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/forget_act"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:padding="40dp"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="?attr/colorPrimary"
-        android:fitsSystemWindows="true"></android.support.v7.widget.Toolbar>
+        android:fitsSystemWindows="true"
+        android:padding="40dp"></android.support.v7.widget.Toolbar>
 
 
     <EditText
@@ -26,6 +27,7 @@
         android:id="@+id/btnGetCode"
         style="@style/ButtonBlue"
         android:layout_marginTop="30dp"
+        android:background="@drawable/button_all"
         android:text="获取验证码" />
 
     <LinearLayout
@@ -40,6 +42,7 @@
             android:id="@+id/etInputCode"
             style="@style/EditTextTheme"
             android:layout_weight="1"
+            android:background="@color/white"
             android:gravity="center"
             android:hint="输入验证码"
             android:textColorHint="@color/base_color_text_black" />
@@ -48,6 +51,7 @@
             android:id="@+id/btnReGetCode"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
+            android:background="@drawable/button_all"
             android:text="获取验证码"
             android:textColor="@android:color/background_light"
             android:textSize="14sp" />
@@ -65,9 +69,11 @@
             android:id="@+id/etInputPsw"
             style="@style/EditTextTheme"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
+            android:background="@color/white"
+            android:gravity="center"
             android:hint="密码"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColorHint="@color/base_color_text_black" />
 
         <ToggleButton
             android:id="@+id/tbPswFlag"
@@ -81,6 +87,7 @@
     <Button
         android:id="@+id/btnSure"
         style="@style/ButtonBlue"
+        android:background="@drawable/button_all"
         android:text="确定" />
 
 </LinearLayout>

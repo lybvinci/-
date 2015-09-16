@@ -16,4 +16,5 @@
     <string name="title_activity_summary">SummaryActivity</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

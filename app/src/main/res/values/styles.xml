@@ -9,8 +9,8 @@
 
     </style>
     <style name="BaseTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryDark">@color/blue</item>
+        <item name="colorPrimary">@color/transation2</item>
+        <item name="colorPrimaryDark">@color/transation2</item>
     </style>
 
 

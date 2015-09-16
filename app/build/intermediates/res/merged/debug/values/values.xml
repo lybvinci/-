@@ -265,6 +265,7 @@
     <color name="title_color_blue">#1898c4</color>
     <color name="tomato">#FF6347</color>
     <color name="transation">#00000000</color>
+    <color name="transation2">#A07A6C</color>
     <color name="turquoise">#40E0D0</color>
     <color name="violet">#EE82EE</color>
     <color name="wheat">#F5DEB3</color>
@@ -430,6 +431,7 @@
     <!-- From: file:/E:/workjavaforstudio/signin/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="time_error">时间有问题</string>
+    <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_summary">SummaryActivity</string>
     <string name="updated_at">上次更新于%1$s前</string>
     <string name="updated_just_now">刚刚更新</string>
@@ -1362,8 +1364,8 @@
     <!-- From: file:/E:/workjavaforstudio/signin/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="BaseTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryDark">@color/blue</item>
+        <item name="colorPrimary">@color/transation2</item>
+        <item name="colorPrimaryDark">@color/transation2</item>
     </style>
     <style name="ButtonBlue">
         <item name="android:layout_height">wrap_content</item>

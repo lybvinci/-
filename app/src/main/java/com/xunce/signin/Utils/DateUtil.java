@@ -183,4 +183,12 @@ public class DateUtil {
 		}
 		return 0;
 	}
+
+	public static int minCastHour(String minute) {
+		return Integer.valueOf(minute) / 60;
+	}
+
+	public static int minCastMin(String minute) {
+		return Integer.valueOf(minute) % 60;
+	}
 }

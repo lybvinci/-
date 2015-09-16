@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/sign_act"
     tools:context=".SignInActivity">
 
     <android.support.v7.widget.Toolbar
@@ -12,17 +13,17 @@
         android:fitsSystemWindows="true"
         android:padding="40dp">
         <!--<Button-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="查看汇总"/>-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="查看汇总"/>-->
     </android.support.v7.widget.Toolbar>
 
     <com.xunce.signin.View.RefreshableView
         android:id="@+id/refreshable_view"
-        android:orientation="vertical"
-        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:orientation="vertical">
 
         <ListView
             android:id="@+id/list_view"
@@ -39,29 +40,33 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="80dp"
+        android:background="@drawable/sign_btn_selector"
         android:onClick="signIn"
         android:text="签到"
         android:textSize="30sp" />
 
-    <Button
-        android:id="@+id/btn_sum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="120dp"
-        android:onClick="gotoSum"
-        android:text="汇总"
-        android:textSize="30sp" />
-    <Button
-        android:id="@+id/btn_login_out"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="40dp"
-        android:onClick="loginOut"
-        android:text="注销"
-        android:textSize="30sp" />
+    <!--<Button-->
+    <!--android:id="@+id/btn_sum"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_marginBottom="120dp"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:background="@drawable/button_gray"-->
+    <!--android:onClick="gotoSum"-->
+    <!--android:text="汇总"-->
+    <!--android:textSize="30sp" />-->
+
+    <!--<Button-->
+    <!--android:id="@+id/btn_login_out"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_marginBottom="40dp"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:background="@drawable/button_gray"-->
+    <!--android:onClick="loginOut"-->
+    <!--android:text="注销"-->
+    <!--android:textSize="30sp" />-->
 
 </RelativeLayout>

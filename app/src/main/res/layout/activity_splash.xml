@@ -2,14 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/splash_act"
     tools:context=".SplashActivity">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:padding="40dp"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="?attr/colorPrimary"
-        android:fitsSystemWindows="true"></android.support.v7.widget.Toolbar>
+    <!--<android.support.v7.widget.Toolbar-->
+    <!--android:id="@+id/toolbar"-->
+    <!--android:padding="40dp"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="80dp"-->
+    <!--android:background="?attr/colorPrimary"-->
+    <!--android:fitsSystemWindows="true"></android.support.v7.widget.Toolbar>-->
 
     <!--<ImageView-->
         <!--android:layout_width="120dp"-->
@@ -20,10 +21,11 @@
         <!--android:layout_marginBottom="10dp"-->
         <!--android:src="@drawable/bicycle"/>-->
     <TextView
+        android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:id="@+id/welcome"
-        android:textSize="25sp"
-        android:text="你来签到了？"/>
+        android:text="你来签到了？"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
 </RelativeLayout>
